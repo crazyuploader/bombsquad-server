@@ -1,23 +1,5 @@
-# Copyright (c) 2011-2020 Eric Froemling
+# Released under the MIT License. See LICENSE for details.
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-# -----------------------------------------------------------------------------
 """Functionality related to the high level state of the app."""
 from __future__ import annotations
 
@@ -58,12 +40,14 @@ class App:
         This value increases by at least 1 with each release of the game.
         It is independent of the human readable ba.App.version string.
         """
-        return self._build_number
+        assert isinstance(self._env['build_number'], int)
+        return self._env['build_number']
 
     @property
     def config_file_path(self) -> str:
         """Where the game's config file is stored on disk."""
-        return self._config_file_path
+        assert isinstance(self._env['config_file_path'], str)
+        return self._env['config_file_path']
 
     @property
     def locale(self) -> str:
@@ -73,7 +57,8 @@ class App:
         ba.App.language, which is the language the game is using
         (which may differ from locale if the user sets a language, etc.)
         """
-        return self._locale
+        assert isinstance(self._env['locale'], str)
+        return self._env['locale']
 
     def can_display_language(self, language: str) -> bool:
         """Tell whether we can display a particular language.
@@ -125,7 +110,7 @@ class App:
             'hi': 'Hindi'
         }
 
-        # Special case for Chinese: specific variations map to traditional.
+        # Special case for Chinese: map specific variations to traditional.
         # (otherwise will map to 'Chinese' which is simplified)
         if self.locale in ('zh_HANT', 'zh_TW'):
             language = 'ChineseTraditional'
@@ -148,7 +133,9 @@ class App:
     @property
     def user_agent_string(self) -> str:
         """String containing various bits of info about OS/device/etc."""
-        return self._user_agent_string
+        # return self._user_agent_string
+        assert isinstance(self._env['user_agent_string'], str)
+        return self._env['user_agent_string']
 
     @property
     def version(self) -> str:
@@ -158,7 +145,8 @@ class App:
         string elements such as 'alpha', 'beta', 'test', etc.
         If a numeric version is needed, use 'ba.App.build_number'.
         """
-        return self._version
+        assert isinstance(self._env['version'], str)
+        return self._env['version']
 
     @property
     def debug_build(self) -> bool:
@@ -168,7 +156,8 @@ class App:
         builds due to compiler optimizations being disabled and extra
         checks being run.
         """
-        return self._debug_build
+        assert isinstance(self._env['debug_build'], bool)
+        return self._env['debug_build']
 
     @property
     def test_build(self) -> bool:
@@ -177,22 +166,27 @@ class App:
         Test mode enables extra checks and features that are useful for
         release testing but which do not slow the game down significantly.
         """
-        return self._test_build
+        assert isinstance(self._env['test_build'], bool)
+        return self._env['test_build']
 
     @property
     def python_directory_user(self) -> str:
         """Path where the app looks for custom user scripts."""
-        return self._python_directory_user
+        assert isinstance(self._env['python_directory_user'], str)
+        return self._env['python_directory_user']
 
     @property
     def python_directory_app(self) -> str:
         """Path where the app looks for its bundled scripts."""
-        return self._python_directory_app
+        assert isinstance(self._env['python_directory_app'], str)
+        return self._env['python_directory_app']
+        # return self._python_directory_app
 
     @property
     def python_directory_app_site(self) -> str:
         """Path containing pip packages bundled with the app."""
-        return self._python_directory_app_site
+        assert isinstance(self._env['python_directory_app_site'], str)
+        return self._env['python_directory_app_site']
 
     @property
     def config(self) -> ba.AppConfig:
@@ -206,7 +200,8 @@ class App:
 
         Examples are: 'mac', 'windows', android'.
         """
-        return self._platform
+        assert isinstance(self._env['platform'], str)
+        return self._env['platform']
 
     @property
     def subplatform(self) -> str:
@@ -215,30 +210,33 @@ class App:
         Can be empty. For the 'android' platform, subplatform may
         be 'google', 'amazon', etc.
         """
-        return self._subplatform
+        assert isinstance(self._env['subplatform'], str)
+        return self._env['subplatform']
 
     @property
     def api_version(self) -> int:
         """The game's api version.
 
-        Only python modules and packages associated with the current api
-        version will be detected by the game (see the ba_meta tag). This
-        value will change whenever backward-incompatible changes are
-        introduced to game apis; when that happens, scripts should be updated
-        accordingly and set to target the new api.
+        Only Python modules and packages associated with the current API
+        version number will be detected by the game (see the ba_meta tag).
+        This value will change whenever backward-incompatible changes are
+        introduced to game APIs. When that happens, scripts should be updated
+        accordingly and set to target the new API version number.
         """
         from ba._meta import CURRENT_API_VERSION
         return CURRENT_API_VERSION
 
     @property
     def on_tv(self) -> bool:
-        """Bool value for if the game is running on a TV."""
-        return self._on_tv
+        """Whether the game is currently running on a TV."""
+        assert isinstance(self._env['on_tv'], bool)
+        return self._env['on_tv']
 
     @property
     def vr_mode(self) -> bool:
-        """Bool value for if the game is running in VR."""
-        return self._vr_mode
+        """Whether the game is currently running in VR."""
+        assert isinstance(self._env['vr_mode'], bool)
+        return self._env['vr_mode']
 
     @property
     def ui_bounds(self) -> Tuple[float, float, float, float]:
@@ -255,7 +253,7 @@ class App:
         the single shared instance.
         """
         # pylint: disable=too-many-statements
-        from ba._music import MusicController
+        from ba._music import MusicSubsystem
         from ba._ui import UI
 
         # Config.
@@ -266,46 +264,16 @@ class App:
         # refreshed/etc.
         self.fg_state = 0
 
-        # Environment stuff.
-        # (pulling these into attrs so we can type-check them and provide docs)
-        env = _ba.env()
-        self._build_number: int = env['build_number']
-        assert isinstance(self._build_number, int)
-        self._config_file_path: str = env['config_file_path']
-        assert isinstance(self._config_file_path, str)
-        self._locale: str = env['locale']
-        assert isinstance(self._locale, str)
-        self._user_agent_string: str = env['user_agent_string']
-        assert isinstance(self._user_agent_string, str)
-        self._version: str = env['version']
-        assert isinstance(self._version, str)
-        self._debug_build: bool = env['debug_build']
-        assert isinstance(self._debug_build, bool)
-        self._test_build: bool = env['test_build']
-        assert isinstance(self._test_build, bool)
-        self._python_directory_user: str = env['python_directory_user']
-        assert isinstance(self._python_directory_user, str)
-        self._python_directory_app: str = env['python_directory_app']
-        assert isinstance(self._python_directory_app, str)
-        self._python_directory_app_site: str = env['python_directory_app_site']
-        assert isinstance(self._python_directory_app_site, str)
-        self._platform: str = env['platform']
-        assert isinstance(self._platform, str)
-        self._subplatform: str = env['subplatform']
-        assert isinstance(self._subplatform, str)
-        self._on_tv: bool = env['on_tv']
-        assert isinstance(self._on_tv, bool)
-        self._vr_mode: bool = env['vr_mode']
-        assert isinstance(self._vr_mode, bool)
-        self.protocol_version: int = env['protocol_version']
+        self._env = _ba.env()
+        self.protocol_version: int = self._env['protocol_version']
         assert isinstance(self.protocol_version, int)
-        self.toolbar_test: bool = env['toolbar_test']
+        self.toolbar_test: bool = self._env['toolbar_test']
         assert isinstance(self.toolbar_test, bool)
-        self.demo_mode: bool = env['demo_mode']
+        self.demo_mode: bool = self._env['demo_mode']
         assert isinstance(self.demo_mode, bool)
-        self.arcade_mode: bool = env['arcade_mode']
+        self.arcade_mode: bool = self._env['arcade_mode']
         assert isinstance(self.arcade_mode, bool)
-        self.headless_build: bool = env['headless_build']
+        self.headless_build: bool = self._env['headless_build']
         assert isinstance(self.headless_build, bool)
 
         # Plugins.
@@ -353,7 +321,7 @@ class App:
         self.attempted_first_ad = False
 
         # Music.
-        self.music = MusicController()
+        self.music = MusicSubsystem()
 
         # Language.
         self.language_target: Optional[_lang.AttrDict] = None

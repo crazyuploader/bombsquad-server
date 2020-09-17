@@ -9,8 +9,8 @@
     "Serbian": "Српски",
     "Gibberish": "Gibberish",
     "Italian": "Italiano",
-    "Czech": "Čeština",
     "German": "Deutsch",
+    "Czech": "Čeština",
     "Persian": "فارسی",
     "Slovak": "Slovenčina ",
     "Polish": "Polski",
@@ -23,15 +23,15 @@
     "Indonesian": "Indonesia",
     "Ukrainian": "Українська",
     "ChineseTraditional": "繁體中文",
-    "Spanish": "Español",
     "Venetian": "Veneto",
     "Greek": "Ελληνικά",
-    "Esperanto": "Esperanto",
+    "Arabic": "عربى",
     "Croatian": "Hrvatski",
     "Portuguese": "Português",
     "Chinese": "简体中文",
     "Japanese": "日本語",
-    "Arabic": "عربى"
+    "Spanish": "Español",
+    "Esperanto": "Esperanto"
   },
   "translation_contributors": [
     "!ParkuristTurist!",
